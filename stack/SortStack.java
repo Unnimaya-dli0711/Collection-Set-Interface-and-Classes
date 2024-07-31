@@ -3,7 +3,7 @@ import java.util.*;
 
 public class SortStack {
     static void sortedInsert(Stack<Integer> s, int x)
-    { 
+    {
         if (s.isEmpty() || x > s.peek()) {
             s.push(x);
             return;
