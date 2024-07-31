@@ -18,7 +18,7 @@ public class NonRepeatedChar {
             }
         }
         for(Map.Entry m:mp.entrySet()){
-             
+
             if(m.getValue().equals(1))
                 System.out.println("Non repeative char : "+m.getKey());
         }
