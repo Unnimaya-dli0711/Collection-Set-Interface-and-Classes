@@ -2,15 +2,16 @@ package policy;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 class Policy{
     String policy_number;
     String name_holder;
-    Date expiry_date;
+    LocalDate expiry_date;
     String coverage_type;
     Double amount;
-    Policy(String policy_number, String name_holder, Date expiry_date, String coverage_type, Double amount){
+    Policy(String policy_number, String name_holder, LocalDate expiry_date, String coverage_type, Double amount){
         this.policy_number=policy_number;
         this.amount=amount;
         this.coverage_type=coverage_type;
@@ -34,11 +35,11 @@ class Policy{
         this.name_holder = name_holder;
     }
 
-    public Date getExpiry_date() {
+    public LocalDate getExpiry_date() {
         return expiry_date;
     }
 
-    public void setExpiry_date(Date expiry_date) {
+    public void setExpiry_date(LocalDate expiry_date) {
         this.expiry_date = expiry_date;
     }
 
@@ -65,7 +66,7 @@ public class PolicyManagement {
     static TreeSet<Policy>policies_treeset=new TreeSet<>();
     static String policy_number;
     static String name_holder;
-    static Date expiry_date;
+    static LocalDate expiry_date;
     static String coverage_type;
     static Double amount;
     public static void main(String[] args) throws ParseException {
@@ -95,7 +96,7 @@ public class PolicyManagement {
                     amount=scannerobject.nextDouble();
                     System.out.println("Expiry Date");
                     String expiry_date_string=scannerobject.next();
-                    expiry_date=new SimpleDateFormat("dd/MM/yyyy").parse(expiry_date_string);
+                    expiry_date= LocalDate.parse(expiry_date_string);;
                     Policy policyobject=new Policy(policy_number,name_holder,expiry_date,coverage_type,amount);
                     policies.add(policyobject);
                     policies_hashset.add(policyobject);
@@ -109,16 +110,12 @@ public class PolicyManagement {
                     break;
                 case 3:
                     System.out.println("Expiring in 30 days");
-
-                    Calendar calendar = Calendar.getInstance();
-                    Date today = calendar.getTime();
-
-                    calendar.add(Calendar.DAY_OF_YEAR, 30);
-                    Date thirtyDaysFromNow = calendar.getTime();
                     List<Policy> expiringPolicies=new ArrayList<>();
+                    LocalDate today = LocalDate.now();
+                    LocalDate thirtyDaysFromNow = today.plusDays(30);
                     for (Policy policy : policies) {
-                        Date expiryDate = policy.getExpiry_date();
-                        if (!expiryDate.before(today) && !expiryDate.after(thirtyDaysFromNow)) {
+                        LocalDate expiryDate = policy.getExpiry_date();
+                        if (!expiryDate.isBefore(today) && !expiryDate.isAfter(thirtyDaysFromNow)) {
                             expiringPolicies.add(policy);
                         }
                     }
